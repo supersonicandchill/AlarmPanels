@@ -1,417 +1,778 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet"/>
-<title>Away Game — Christian Parent’s Playbook</title>
-<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Alarm Panel Reference</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@400;700;800;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: #f8f9fa; font-family: 'DM Sans', system-ui, sans-serif; color: #1a1a1a; line-height: 1.6; }
-button { cursor: pointer; }
-.progress-bar { height: 10px; background: #e9ecef; border-radius: 9999px; overflow: hidden; }
-.progress-fill { height: 100%; transition: width 0.5s ease; }
-.team-card { background: #fff; border: 1px solid #dee2e6; border-radius: 16px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); }
-.delete-btn { background: #fee2e2; color: #ef4444; border: none; width: 32px; height: 32px; border-radius: 8px; font-size: 18px; }
+:root{--bg:#0a0a0a;--bg2:#111;--bg3:#181818;--bg4:#202020;--bg5:#282828;--border:#2c2c2c;--border2:#383838;--red:#e53935;--red2:#b71c1c;--red-dim:rgba(229,57,53,.12);--amber:#ffb300;--green:#43a047;--blue:#1e88e5;--text:#e0e0e0;--text2:#aaa;--text3:#666;--mono:'Share Tech Mono',monospace;--cond:'Barlow Condensed',sans-serif;--body:'Barlow',sans-serif}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{height:100%;overscroll-behavior:none}
+body{font-family:var(--body);background:var(--bg);color:var(--text);min-height:100%;-webkit-tap-highlight-color:transparent;overflow-x:hidden}
+.screen{display:none;min-height:100vh;flex-direction:column}
+.screen.active{display:flex}
+/* HOME */
+#screen-home{background:var(--bg)}
+.home-header{background:linear-gradient(180deg,#1a0000 0%,#0f0000 100%);border-bottom:2px solid var(--red);padding:20px 18px 16px;position:relative;overflow:hidden;flex-shrink:0}
+.home-header::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:40px;background:repeating-linear-gradient(90deg,var(--red) 0px,var(--red) 3px,transparent 3px,transparent 12px);opacity:.08}
+.home-title-row{display:flex;align-items:flex-start;gap:14px;margin-bottom:14px}
+.home-icon-box{width:52px;height:52px;background:var(--red2);border:2px solid var(--red);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0;box-shadow:0 0 20px rgba(229,57,53,.4)}
+.home-title h1{font-family:var(--cond);font-size:1.9rem;font-weight:900;text-transform:uppercase;letter-spacing:.04em;color:#fff;line-height:1;margin-bottom:4px}
+.home-title p{font-family:var(--mono);font-size:.68rem;color:var(--red);letter-spacing:.1em;text-transform:uppercase}
+.panel-count-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.count-chip{background:rgba(229,57,53,.15);border:1px solid rgba(229,57,53,.3);border-radius:20px;padding:4px 12px;font-family:var(--mono);font-size:.72rem;color:var(--red);letter-spacing:.05em}
+.search-bar{padding:12px 16px;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:10;flex-shrink:0}
+.search-inner{display:flex;align-items:center;background:var(--bg4);border:1px solid var(--border2);border-radius:10px;padding:0 14px;gap:10px;transition:border-color .2s}
+.search-inner:focus-within{border-color:var(--red)}
+.search-icon{color:var(--text3);font-size:1rem;flex-shrink:0}
+.search-input{background:none;border:none;outline:none;color:var(--text);font-family:var(--body);font-size:1rem;padding:13px 0;width:100%}
+.search-input::placeholder{color:var(--text3)}
+.search-clear{background:none;border:none;color:var(--text3);cursor:pointer;font-size:1.1rem;padding:4px;display:none}
+.emergency-btn{margin:12px 16px 0;width:calc(100% - 32px);background:linear-gradient(135deg,#3d0000,#5c0a00);border:2px solid var(--red);border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:all .2s;text-align:left}
+.emergency-btn:active{transform:scale(.98)}
+.emg-icon{font-size:1.8rem;flex-shrink:0}
+.emg-text strong{display:block;font-family:var(--cond);font-size:1rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:#fff;margin-bottom:2px}
+.emg-text span{font-size:.78rem;color:rgba(255,255,255,.55)}
+.emg-arrow{margin-left:auto;color:var(--red);font-size:1.2rem}
+.brand-section{padding:16px 16px 0;flex:1;overflow-y:auto}
+.section-hdr{font-family:var(--mono);font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);margin-bottom:10px;padding-left:2px}
+.brand-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding-bottom:24px}
+.brand-card{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:14px;cursor:pointer;transition:all .18s;position:relative;overflow:hidden}
+.brand-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--card-color,var(--red));opacity:.8}
+.brand-card:active{transform:scale(.97);background:var(--bg4)}
+.bc-badge{display:inline-block;font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:4px;margin-bottom:8px;color:#fff}
+.bc-name{font-family:var(--cond);font-size:1.05rem;font-weight:800;text-transform:uppercase;letter-spacing:.03em;color:#fff;line-height:1.1;margin-bottom:4px}
+.bc-models{font-size:.72rem;color:var(--text3);line-height:1.4}
+.bc-arrow{position:absolute;bottom:12px;right:12px;color:var(--text3);font-size:.9rem}
+.bc-count{display:inline-block;background:var(--bg5);border-radius:4px;padding:2px 6px;font-family:var(--mono);font-size:.62rem;color:var(--text3);margin-top:6px}
+.search-results{padding:12px 16px;flex:1;overflow-y:auto;display:none}
+.result-item{background:var(--bg3);border:1px solid var(--border);border-left:4px solid var(--item-color,var(--red));border-radius:8px;padding:13px 14px;margin-bottom:8px;cursor:pointer;transition:all .15s}
+.result-item:active{background:var(--bg4)}
+.ri-brand{font-family:var(--mono);font-size:.62rem;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+.ri-name{font-family:var(--cond);font-size:1.1rem;font-weight:800;text-transform:uppercase;color:#fff;margin-bottom:3px}
+.ri-match{font-size:.78rem;color:var(--text2)}
+.no-results{text-align:center;padding:40px 20px;color:var(--text3);font-size:.9rem}
+/* BRAND/PANEL LIST */
+#screen-brand{background:var(--bg)}
+.nav-header{display:flex;align-items:center;gap:12px;padding:14px 16px;background:var(--bg2);border-bottom:1px solid var(--border);flex-shrink:0}
+.back-btn{background:var(--bg4);border:1px solid var(--border2);border-radius:8px;width:38px;height:38px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text);font-size:1.3rem;flex-shrink:0;transition:background .15s}
+.back-btn:active{background:var(--bg5)}
+.nav-title{font-family:var(--cond);font-size:1.3rem;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:#fff}
+.nav-sub{font-size:.75rem;color:var(--text3)}
+.brand-color-bar{height:4px;flex-shrink:0}
+.panel-list{flex:1;overflow-y:auto;padding:12px 16px 24px}
+.panel-card{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:10px;cursor:pointer;transition:all .15s;position:relative}
+.panel-card:active{background:var(--bg4);transform:scale(.99)}
+.pc-header{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px}
+.pc-icon{width:42px;height:42px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0}
+.pc-name{font-family:var(--cond);font-size:1.1rem;font-weight:800;text-transform:uppercase;letter-spacing:.03em;color:#fff;line-height:1.1;margin-bottom:3px}
+.pc-sub{font-size:.78rem;color:var(--text2);line-height:1.3}
+.pc-tags{display:flex;flex-wrap:wrap;gap:5px}
+.pc-tag{background:var(--bg5);border:1px solid var(--border);border-radius:4px;padding:3px 8px;font-size:.68rem;color:var(--text3);font-family:var(--mono)}
+.pc-quick{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.pc-quick-item{display:flex;align-items:center;gap:6px;font-size:.78rem;color:var(--text2)}
+.pc-quick-item .dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.pc-arrow{position:absolute;top:16px;right:14px;color:var(--text3);font-size:.9rem}
+/* DETAIL */
+#screen-detail{background:var(--bg)}
+.detail-hero{padding:18px 18px 14px;background:var(--bg2);border-bottom:1px solid var(--border);flex-shrink:0;position:relative;overflow:hidden}
+.detail-hero::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--hero-color,var(--red))}
+.dh-row{display:flex;align-items:center;gap:14px}
+.dh-icon{width:56px;height:56px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.7rem;flex-shrink:0;border:2px solid var(--hero-color,var(--red))}
+.dh-brand{font-family:var(--mono);font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px}
+.dh-name{font-family:var(--cond);font-size:1.5rem;font-weight:900;text-transform:uppercase;letter-spacing:.03em;color:#fff;line-height:1;margin-bottom:4px}
+.dh-sub{font-size:.78rem;color:var(--text2)}
+.detail-tabs{display:flex;background:var(--bg2);border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none;flex-shrink:0}
+.detail-tabs::-webkit-scrollbar{display:none}
+.dtab{flex-shrink:0;padding:12px 16px;background:none;border:none;border-bottom:3px solid transparent;color:var(--text3);font-family:var(--cond);font-size:.88rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;cursor:pointer;transition:all .2s;white-space:nowrap}
+.dtab.active{color:#fff;border-bottom-color:var(--tab-color,var(--red))}
+.detail-content{flex:1;overflow-y:auto}
+.dtab-pane{display:none;padding:16px 16px 40px}
+.dtab-pane.active{display:block}
+.step-card{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);align-items:flex-start}
+.step-card:last-child{border-bottom:none}
+.step-num{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:.82rem;font-weight:700;flex-shrink:0;margin-top:1px}
+.step-num.pc{background:rgba(229,57,53,.25);color:#ef9a9a;border:1px solid rgba(229,57,53,.4)}
+.step-num.pa{background:rgba(255,179,0,.2);color:#ffe082;border:1px solid rgba(255,179,0,.35)}
+.step-num.pg{background:rgba(67,160,71,.2);color:#a5d6a7;border:1px solid rgba(67,160,71,.35)}
+.step-num.pn{background:var(--bg5);color:var(--text2);border:1px solid var(--border)}
+.step-text{font-size:.95rem;line-height:1.5;color:var(--text)}
+.step-note{font-size:.78rem;color:var(--text3);margin-top:4px;font-family:var(--mono)}
+.controls-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ctrl-card{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px}
+.ctrl-key{font-family:var(--mono);font-size:.72rem;color:var(--amber);margin-bottom:4px;letter-spacing:.04em}
+.ctrl-desc{font-size:.82rem;color:var(--text2);line-height:1.3}
+.trouble-table{width:100%;border-collapse:collapse}
+.trouble-table th{font-family:var(--mono);font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);text-align:left;padding:8px 10px;border-bottom:1px solid var(--border2);background:var(--bg3)}
+.trouble-table td{padding:10px;font-size:.85rem;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.4}
+.trouble-table td:first-child{font-family:var(--mono);color:var(--amber);font-size:.78rem;white-space:nowrap;width:32%}
+.trouble-table td:last-child{color:var(--text2)}
+.trouble-table tr:last-child td{border-bottom:none}
+.diagram-wrap{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:16px;overflow-x:auto}
+.diagram-title{font-family:var(--mono);font-size:.65rem;text-transform:uppercase;letter-spacing:.12em;color:var(--text3);margin-bottom:10px}
+.diagram-art{font-family:var(--mono);font-size:.72rem;color:#ccc;line-height:1.6;white-space:pre;overflow-x:auto}
+.d-red{color:#ef5350}.d-amber{color:#ffb300}.d-green{color:#66bb6a}.d-dim{color:#555}.d-bright{color:#fff}
+.loc-grid{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.loc-tag{background:var(--bg4);border:1px solid var(--border2);border-radius:6px;padding:5px 11px;font-size:.78rem;color:var(--text2);font-family:var(--mono)}
+.model-chips{display:flex;flex-wrap:wrap;gap:6px}
+.model-chip{background:rgba(229,57,53,.1);border:1px solid rgba(229,57,53,.25);border-radius:6px;padding:5px 11px;font-size:.78rem;color:#ef9a9a;font-family:var(--mono)}
+.callout{border-radius:8px;padding:12px 14px;font-size:.88rem;line-height:1.6;margin-top:0}
+.callout.warn{background:rgba(229,57,53,.1);border:1px solid rgba(229,57,53,.3);color:#ef9a9a}
+.callout.tip{background:rgba(67,160,71,.1);border:1px solid rgba(67,160,71,.3);color:#a5d6a7}
+.callout.info{background:rgba(255,179,0,.08);border:1px solid rgba(255,179,0,.25);color:#ffe082}
+.callout strong{display:block;font-family:var(--mono);font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px;opacity:.7}
+.pane-label{font-family:var(--mono);font-size:.62rem;text-transform:uppercase;letter-spacing:.14em;color:var(--text3);margin:18px 0 8px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+/* EMERGENCY */
+#screen-emergency{background:var(--bg)}
+.emg-header{background:linear-gradient(135deg,#3d0000,#5c0a00);border-bottom:2px solid var(--red);padding:16px 18px;flex-shrink:0}
+.emg-title-row{display:flex;align-items:center;gap:12px}
+.emg-pulse{width:12px;height:12px;background:var(--red);border-radius:50%;animation:pulse 1.2s infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+.emg-header h2{font-family:var(--cond);font-size:1.4rem;font-weight:900;text-transform:uppercase;letter-spacing:.06em;color:#fff}
+.emg-header p{font-size:.78rem;color:rgba(255,255,255,.5);margin-top:3px}
+.emg-content{flex:1;overflow-y:auto;padding:16px 16px 40px}
+.emg-step-group{margin-bottom:20px}
+.emg-group-title{font-family:var(--mono);font-size:.65rem;text-transform:uppercase;letter-spacing:.14em;color:var(--red);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.emg-group-title::after{content:'';flex:1;height:1px;background:rgba(229,57,53,.2)}
+.emg-step{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);align-items:flex-start}
+.emg-step:last-child{border-bottom:none}
+.emg-n{width:26px;height:26px;border-radius:6px;background:rgba(229,57,53,.2);border:1px solid rgba(229,57,53,.4);color:#ef9a9a;font-family:var(--mono);font-size:.8rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.emg-step-text{font-size:.95rem;line-height:1.5;color:var(--text);flex:1}
+.emg-step-text em{color:var(--amber);font-style:normal;font-family:var(--mono);font-size:.85rem}
+.universal-rule{background:linear-gradient(135deg,rgba(255,179,0,.08),rgba(229,57,53,.08));border:1px solid rgba(255,179,0,.3);border-radius:12px;padding:16px;margin:16px 0}
+.universal-rule .ur-title{font-family:var(--mono);font-size:.65rem;text-transform:uppercase;letter-spacing:.12em;color:var(--amber);margin-bottom:10px}
+.ur-flow{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ur-step{background:var(--bg4);border:1px solid var(--border2);border-radius:8px;padding:8px 14px;font-family:var(--cond);font-size:1rem;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:#fff;text-align:center}
+.ur-step.hl{background:rgba(229,57,53,.2);border-color:var(--red);color:#ef9a9a}
+.ur-arrow{color:var(--text3);font-size:1.1rem}
+.contact-row{display:flex;align-items:center;gap:12px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:13px 14px;margin-bottom:8px}
+.contact-icon{font-size:1.4rem;flex-shrink:0}
+.contact-text strong{display:block;font-size:.95rem;font-weight:600}
+.contact-text span{font-size:.78rem;color:var(--text3)}
+.what-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+@media(max-width:360px){.brand-grid,.controls-grid,.what-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<div id="root"></div>
-<script type="text/babel" data-presets="react">
-const { useState } = React;
 
-// ─── STORAGE ──────────────────────────────────────────────────────────────────
-function load(key, fb) { try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fb; } catch { return fb; } }
-function save(key, val) { try { localStorage.setItem(key, JSON.stringify(val)); } catch {} }
-let _c = Date.now();
-function uid() { return "x" + (++_c).toString(36); }
+<div class="screen active" id="screen-home">
+  <div class="home-header">
+    <div class="home-title-row">
+      <div class="home-icon-box">🔔</div>
+      <div class="home-title">
+        <h1>Panel Ref</h1>
+        <p>Fire Alarm Field Guide &middot; HHFD</p>
+      </div>
+    </div>
+    <div class="panel-count-row">
+      <span class="count-chip">9 BRANDS</span>
+      <span class="count-chip">20+ MODELS</span>
+      <span class="count-chip">OFFLINE</span>
+    </div>
+  </div>
+  <div class="search-bar">
+    <div class="search-inner">
+      <span class="search-icon">&#128269;</span>
+      <input class="search-input" id="search-input" type="text" placeholder="Brand, model, or location&#8230;" autocomplete="off" autocorrect="off" spellcheck="false">
+      <button class="search-clear" id="search-clear" onclick="clearSearch()">&#10005;</button>
+    </div>
+  </div>
+  <button class="emergency-btn" onclick="goScreen('screen-emergency')">
+    <span class="emg-icon">&#128682;</span>
+    <div class="emg-text">
+      <strong>Don't Recognize This Panel?</strong>
+      <span>Universal guide for unknown systems</span>
+    </div>
+    <span class="emg-arrow">&#8250;</span>
+  </button>
+  <div class="brand-section" id="brand-section">
+    <div class="section-hdr">Browse by Brand</div>
+    <div class="brand-grid" id="brand-grid"></div>
+  </div>
+  <div class="search-results" id="search-results"></div>
+</div>
 
-// ─── COLORS ───────────────────────────────────────────────────────────────────
-const C = {
-  bg0: "#f8f9fa", bg1: "#ffffff", bg2: "#f1f3f5", bg3: "#e9ecef",
-  border: "#dee2e6", borderHi: "#ff8c00",
-  text: "#1a1a1a", textSub: "#495057", textMuted: "#6c757d",
-  orange: "#ff8c00", green: "#00b36b"
+<div class="screen" id="screen-brand">
+  <div class="nav-header">
+    <button class="back-btn" onclick="goBack()">&#8249;</button>
+    <div>
+      <div class="nav-title" id="brand-screen-title"></div>
+      <div class="nav-sub" id="brand-screen-sub"></div>
+    </div>
+  </div>
+  <div class="brand-color-bar" id="brand-color-bar"></div>
+  <div class="panel-list" id="panel-list"></div>
+</div>
+
+<div class="screen" id="screen-detail">
+  <div class="nav-header">
+    <button class="back-btn" onclick="goBack()">&#8249;</button>
+    <div>
+      <div class="nav-title" id="detail-nav-title"></div>
+      <div class="nav-sub" id="detail-nav-sub"></div>
+    </div>
+  </div>
+  <div class="detail-hero" id="detail-hero">
+    <div class="dh-row">
+      <div class="dh-icon" id="dh-icon"></div>
+      <div class="dh-text">
+        <div class="dh-brand" id="dh-brand"></div>
+        <div class="dh-name" id="dh-name"></div>
+        <div class="dh-sub" id="dh-sub"></div>
+      </div>
+    </div>
+  </div>
+  <div class="detail-tabs" id="detail-tabs"></div>
+  <div class="detail-content" id="detail-content"></div>
+</div>
+
+<div class="screen" id="screen-emergency">
+  <div class="emg-header">
+    <div class="emg-title-row">
+      <div style="cursor:pointer;color:#fff;font-size:1.5rem;margin-right:4px;line-height:1" onclick="goBack()">&#8249;</div>
+      <div class="emg-pulse"></div>
+      <div>
+        <h2>Unknown Panel Guide</h2>
+        <p>Use when you can't identify the system</p>
+      </div>
+    </div>
+  </div>
+  <div class="emg-content">
+    <div class="universal-rule">
+      <div class="ur-title">&#9889; Universal Sequence &mdash; Works on 90% of Panels</div>
+      <div class="ur-flow">
+        <div class="ur-step hl">1. Key In</div>
+        <span class="ur-arrow">&#8594;</span>
+        <div class="ur-step">ACK</div>
+        <span class="ur-arrow">&#8594;</span>
+        <div class="ur-step">Silence</div>
+        <span class="ur-arrow">&#8594;</span>
+        <div class="ur-step">Investigate</div>
+        <span class="ur-arrow">&#8594;</span>
+        <div class="ur-step">Reset</div>
+      </div>
+    </div>
+    <div class="emg-step-group">
+      <div class="emg-group-title">Step 1 &mdash; Identify the Panel</div>
+      <div class="emg-step"><div class="emg-n">1</div><div class="emg-step-text">Look for a <em>nameplate</em> inside the cabinet door &mdash; brand and model are almost always there</div></div>
+      <div class="emg-step"><div class="emg-n">2</div><div class="emg-step-text">Check the <em>monitoring company sticker</em> on the door &mdash; they can walk you through by phone</div></div>
+      <div class="emg-step"><div class="emg-n">3</div><div class="emg-step-text">Look for a <em>key switch</em> &mdash; insert and turn before pressing anything</div></div>
+    </div>
+    <div class="emg-step-group">
+      <div class="emg-group-title">Step 2 &mdash; Silence the Alarm</div>
+      <div class="emg-step"><div class="emg-n">1</div><div class="emg-step-text">Find the most prominent button labeled <em>SILENCE, ACK, or showing a bell</em></div></div>
+      <div class="emg-step"><div class="emg-n">2</div><div class="emg-step-text">Older panels: look for a <em>physical toggle switch</em> labeled SILENCE</div></div>
+      <div class="emg-step"><div class="emg-n">3</div><div class="emg-step-text"><em>ACKNOWLEDGE</em> silences the local panel buzzer only &mdash; then press SILENCE for building-wide</div></div>
+      <div class="emg-step"><div class="emg-n">4</div><div class="emg-step-text">Nothing responds: <em>do not experiment</em> &mdash; call the monitoring company</div></div>
+    </div>
+    <div class="emg-step-group">
+      <div class="emg-group-title">Step 3 &mdash; Read the Zone</div>
+      <div class="emg-step"><div class="emg-n">1</div><div class="emg-step-text">LCD display: zone number and device type shown &mdash; <em>write it down</em></div></div>
+      <div class="emg-step"><div class="emg-n">2</div><div class="emg-step-text">LED panel: red light = that zone in alarm &mdash; find the <em>zone directory card</em> inside door</div></div>
+      <div class="emg-step"><div class="emg-n">3</div><div class="emg-step-text">No display: conventional panel &mdash; each circuit = one zone, check wiring labels</div></div>
+    </div>
+    <div class="emg-step-group">
+      <div class="emg-group-title">Step 4 &mdash; Investigate and Reset</div>
+      <div class="emg-step"><div class="emg-n">1</div><div class="emg-step-text">Investigate fully &mdash; <em>do not reset until source is confirmed and corrected</em></div></div>
+      <div class="emg-step"><div class="emg-n">2</div><div class="emg-step-text">Manual pull stations require <em>physical reset at the device</em> before panel clears</div></div>
+      <div class="emg-step"><div class="emg-n">3</div><div class="emg-step-text">Press <em>RESET</em> &mdash; if re-alarm occurs, something is still active</div></div>
+      <div class="emg-step"><div class="emg-n">4</div><div class="emg-step-text">Panel will not reset: leave silenced, <em>document zone</em>, notify monitoring company</div></div>
+    </div>
+    <div class="pane-label">What to Look For on Any Panel</div>
+    <div class="what-grid">
+      <div class="ctrl-card"><div class="ctrl-key">RED LED</div><div class="ctrl-desc">Active alarm in that zone</div></div>
+      <div class="ctrl-card"><div class="ctrl-key">AMBER LED</div><div class="ctrl-desc">Trouble / fault condition</div></div>
+      <div class="ctrl-card"><div class="ctrl-key">GREEN LED</div><div class="ctrl-desc">Normal / power on / all clear</div></div>
+      <div class="ctrl-card"><div class="ctrl-key">BLUE LED</div><div class="ctrl-desc">Supervisory / monitor point</div></div>
+      <div class="ctrl-card"><div class="ctrl-key">KEY SWITCH</div><div class="ctrl-desc">Insert and turn before anything</div></div>
+      <div class="ctrl-card"><div class="ctrl-key">DOOR STICKER</div><div class="ctrl-desc">Monitoring company number</div></div>
+    </div>
+    <div class="callout warn" style="margin-bottom:10px">
+      <strong>NEVER</strong>Do NOT guess at unfamiliar panel functions. Silence, document the zone, and call monitoring when uncertain.
+    </div>
+    <div class="callout tip" style="margin-bottom:16px">
+      <strong>PRO TIP</strong>Monitoring company number is on the panel door sticker. They know the system and can confirm the zone.
+    </div>
+    <div class="pane-label">Who to Call</div>
+    <div class="contact-row"><span class="contact-icon">&#128222;</span><div class="contact-text"><strong>Monitoring Company</strong><span>Number on panel door sticker</span></div></div>
+    <div class="contact-row"><span class="contact-icon">&#127970;</span><div class="contact-text"><strong>Building Engineer / Manager</strong><span>On-site, knows the system and layout</span></div></div>
+    <div class="contact-row"><span class="contact-icon">&#128295;</span><div class="contact-text"><strong>Fire Alarm Technician</strong><span>For failed resets or systems that won't clear</span></div></div>
+  </div>
+</div>
+
+<script>
+const BRANDS=[
+  {id:'honeywell',name:'Honeywell',color:'#1565c0',icon:'&#128311;',models:['Vista-15P','Vista-20P','Vista-128BPT','Vista-250']},
+  {id:'simplex',name:'Simplex',color:'#c62828',icon:'&#128310;',models:['4100ES','4010ES','4100U','4005']},
+  {id:'notifier',name:'Notifier',color:'#6a1b9a',icon:'&#128312;',models:['NFS2-3030','NFS-320','AFP-200','AFP-400']},
+  {id:'edwards',name:'Edwards / EST',color:'#e65100',icon:'&#128309;',models:['EST3','EST4','E3 Series','QuickStart']},
+  {id:'bosch',name:'Bosch',color:'#2e7d32',icon:'&#128308;',models:['D9412GV4','D7412GV4','FPD-7024']},
+  {id:'sk',name:'Silent Knight',color:'#37474f',icon:'&#11044;',models:['5208','6820EVS','IFP-2100','IFP-300']},
+  {id:'gamewell',name:'Gamewell',color:'#0d47a1',icon:'&#128309;',models:['E3 Series','7100 Series','GCC-7100F']},
+  {id:'mircom',name:'Mircom',color:'#880e4f',icon:'&#128308;',models:['FX-2000','FleX-Net','MR-2000S']},
+  {id:'generic',name:'Unknown / Generic',color:'#4e342e',icon:'?',models:['Conventional','Any unidentified panel']},
+];
+
+const PANELS={
+honeywell:[{
+  id:'vista-20p',brand:'honeywell',name:'Vista-20P / 15P',sub:'Most common residential and light commercial',
+  icon:'H',color:'#1565c0',
+  locations:['Multi-tenant commercial','Hotels','Apartment buildings','Schools','Small offices'],
+  models:['Vista-15P','Vista-20P','Vista-128BPT','Vista-250BPT'],
+  appearance:'Grey or beige plastic enclosure. Numeric keypad similar to a home security pad with alphanumeric LCD display. Separate keypad or annunciator panel often located at main entry or lobby.',
+  diagram:'HONEYWELL VISTA 20P\n\n  +---------------------------+\n  | ZONE 04 ALARM             | <- LCD\n  | KITCHEN SMOKE DET.        |\n  +---------------------------+\n\n  [1][2][3]   [4][5][6]\n  [7][8][9]   [*][0][#]\n\n  (ARMED) (READY) (ALARM)    <- LEDs\n\nKey: [*]+code = arm/disarm\n     [#]+code = silence/reset',
+  diagAnnotations:[{sym:'LCD Display',desc:'Shows zone number and location text'},{sym:'[*]+[2]',desc:'View all active zones on some models'},{sym:'[#]',desc:'Used with master code to silence and reset'}],
+  silenceSteps:[
+    {text:'Locate keypad at main entry or lobby annunciator',priority:'n'},
+    {text:'Enter master code when prompted (4-6 digits from building staff)',priority:'c'},
+    {text:'Press [OFF] or [#] + master code to silence horns and bells',priority:'a'},
+    {text:'Display shows "Alarm Silenced" or "Disarmed" confirming silence',priority:'g'},
+  ],
+  resetSteps:[
+    {text:'Confirm fire area investigated and source corrected',priority:'n'},
+    {text:'Enter master code on keypad',priority:'a'},
+    {text:'Press [OFF] twice rapidly to clear alarm memory',priority:'a'},
+    {text:'Display returns to READY or ARMED status indicating normal',priority:'g'},
+    {text:'If double-OFF fails, try: Code + [#] as alternate reset',priority:'n'},
+  ],
+  controls:[{key:'[#] + Code',desc:'Primary silence and disarm sequence'},{key:'[OFF] x2',desc:'Full reset to clear alarm memory'},{key:'[*]+[2]',desc:'View all active zones on display'},{key:'[*]+[7]',desc:'Test mode - use with caution'},{key:'Master Code',desc:'Required before any operation - get from building staff'},{key:'[*]+[6]',desc:'Programming mode - do not enter'}],
+  troubleCodes:[{code:'ZONE CHECK',desc:'Zone tamper or trouble - check device connection'},{code:'bAt',desc:'Low battery on wireless device'},{code:'AC LOSS',desc:'Mains power failure - panel on battery'},{code:'COMM FAIL',desc:'Communication failure to monitoring station'},{code:'OPEN',desc:'Zone circuit open - device disconnect or wire break'},{code:'FC',desc:'Fire Command mode active'}],
+  caution:'Do NOT enter the master code repeatedly if unsure - some models lockout after 3-5 failed attempts. Get the correct code from building staff or call the monitoring company.',
+  tip:'Many Vista panels send an "alarm restored" signal to monitoring when you silence. Notify your comm center so dispatch does not expect additional response.',
+  zoneInfo:'Zone shown as number on LCD (e.g. "ZONE 04 ALARM"). Zone directory card is typically inside the panel enclosure door or posted near the keypad.',
+}],
+simplex:[{
+  id:'simplex-4100es',brand:'simplex',name:'Simplex 4100ES',sub:'Hospitals, universities, high-rises',
+  icon:'S',color:'#c62828',
+  locations:['Hospitals','Universities','Large commercial','High-rises','Government buildings'],
+  models:['4100ES','4010ES','4100U','4005','4020'],
+  appearance:'Large red metallic cabinet, often floor-to-ceiling in fire control rooms. Large LCD with dedicated function keys and a key switch. Newer installs may have a touchscreen interface.',
+  diagram:'SIMPLEX 4100ES\n\n  +----------------------------------+\n  | L1-D047 SMOKE ALARM              | <- Full address\n  | FLOOR 3 NORTH CORRIDOR           |\n  +----------------------------------+\n\n  KEY SWITCH: [O---] <- Turn to CMD first\n\n  [ ACKNOWLEDGE ] [ ALARM SILENCE ]\n  [ DRILL       ] [ SYSTEM RESET  ]\n\n  (ALARM) (TROUBLE) (SUPERVISORY)   <- LEDs',
+  diagAnnotations:[{sym:'KEY SWITCH',desc:'Must turn to COMMAND before any button works'},{sym:'ACKNOWLEDGE',desc:'Silences local panel buzzer, logs your action'},{sym:'ALARM SILENCE',desc:'Stops building-wide notification appliances'},{sym:'SYSTEM RESET',desc:'Full reset after investigation complete'}],
+  silenceSteps:[
+    {text:'Locate main panel in dedicated fire control room or lobby cabinet',priority:'n'},
+    {text:'Turn key switch to COMMAND or OPERATIONS position - required first step',priority:'c'},
+    {text:'Press ACKNOWLEDGE to silence panel buzzer and log your action',priority:'a'},
+    {text:'Press ALARM SILENCE (large yellow button) to stop horns and speakers',priority:'a'},
+    {text:'Visual strobes may continue - this is code-required and completely normal',priority:'g'},
+  ],
+  resetSteps:[
+    {text:'Confirm all areas investigated, source corrected, sprinklers off if activated',priority:'n'},
+    {text:'Key must remain in COMMAND position throughout reset',priority:'c'},
+    {text:'Press SYSTEM RESET - dedicated button, usually red or grey',priority:'a'},
+    {text:'System self-test runs 30-90 seconds on large systems - wait for completion',priority:'n'},
+    {text:'Display shows NORMAL or all green LEDs when reset is complete',priority:'g'},
+    {text:'Return key to normal position and log the action',priority:'n'},
+  ],
+  controls:[{key:'KEY -> COMMAND',desc:'Required first step before anything else'},{key:'ACKNOWLEDGE',desc:'Silences panel buzzer, logs action with timestamp'},{key:'ALARM SILENCE',desc:'Stops horns and speakers building-wide'},{key:'SYSTEM RESET',desc:'Full system reset after correction'},{key:'DRILL',desc:'Fire drill mode - confirm before pressing'},{key:'DISABLE',desc:'Zone bypass - authorized use only'}],
+  troubleCodes:[{code:'TROUBLE',desc:'Device or circuit fault - check zone indicated on display'},{code:'SUPERVISORY',desc:'Sprinkler valve, tamper switch, or monitor point activated'},{code:'AC FAIL',desc:'Loss of main AC power - on battery backup'},{code:'BATT FAIL',desc:'Battery low or failed - call technician'},{code:'COMM FAIL',desc:'Communication failure to remote panel or monitoring'},{code:'OPEN CKT',desc:'Open circuit on initiating or notification loop'},{code:'GND FAULT',desc:'Ground fault detected - technician required'}],
+  caution:'Simplex 4100ES in large occupancies may have stairwell pressurization, elevator recall, and smoke control tied to the system. Confirm with building engineer before resetting in any large occupancy.',
+  tip:'In hospitals, a reset triggers elevator returns and HVAC mode changes. Always coordinate with facility staff before resetting - this is not just a panel reset.',
+  zoneInfo:'Full device address on display (e.g. "L1-D007 SMOKE ALARM - FLOOR 3 CORRIDOR"). Floor plan maps with device locations are in the fire control room binder.',
+}],
+notifier:[{
+  id:'notifier-nfs2',brand:'notifier',name:'Notifier NFS2-3030 / AFP Series',sub:'Commercial, industrial, institutional',
+  icon:'N',color:'#6a1b9a',
+  locations:['Commercial buildings','Industrial facilities','Schools','Warehouses','Healthcare clinics'],
+  models:['NFS2-3030','NFS-320','AFP-200','AFP-400','NFW-50'],
+  appearance:'Black or dark grey panel with backlit LCD display. Dedicated function keys across the bottom row. LED indicator row at top: red alarm, amber trouble, green normal.',
+  diagram:'NOTIFIER NFS2-3030\n\n  (ALARM) (TROUBLE) (SUPERVISORY) (NORMAL)  <- LEDs\n\n  +----------------------------------+\n  | SLC 1 DEV 047                    |\n  | SMOKE DETECTOR ALARM             | <- Address\n  | FLOOR 2 EAST WING                |\n  +----------------------------------+\n\n  [ACK] [SIGNAL  ] [RESET] [SCROLL]\n        [SILENCE ]',
+  diagAnnotations:[{sym:'LED Row',desc:'Red=Alarm, Amber=Trouble, Green=Normal at a glance'},{sym:'SLC Address',desc:'Exact device location - read fully before acting'},{sym:'SIGNAL SILENCE',desc:'Stops all audible notification appliances'},{sym:'ACK',desc:'Acknowledge - logs action and silences local buzzer'}],
+  silenceSteps:[
+    {text:'Insert key and turn to enable operations',priority:'c'},
+    {text:'Press ACK to silence panel buzzer and read display without interference',priority:'a'},
+    {text:'Read LCD fully - SLC address shows exact device and location',priority:'n'},
+    {text:'Press SIGNAL SILENCE to stop horns and bells building-wide',priority:'a'},
+    {text:'SILENCE indicator LED illuminates confirming notification stopped',priority:'g'},
+  ],
+  resetSteps:[
+    {text:'Investigate fully and confirm conditions are corrected',priority:'n'},
+    {text:'All triggered devices must no longer be in alarm state',priority:'c'},
+    {text:'Press RESET - panel begins polling all SLC devices',priority:'a'},
+    {text:'Wait for polling cycle to complete: 30-120 seconds on large systems',priority:'n'},
+    {text:'If re-alarm occurs immediately: device still active - do NOT force reset',priority:'c'},
+    {text:'Green NORMAL LED illuminates when system is fully restored',priority:'g'},
+  ],
+  controls:[{key:'ACK',desc:'Acknowledge - silences buzzer and logs time of action'},{key:'SIGNAL SILENCE',desc:'Stops building-wide notification appliances'},{key:'RESET',desc:'Resets system after all conditions corrected'},{key:'SCROLL',desc:'Navigate through alarm and trouble list on LCD'},{key:'DISABLE',desc:'Bypass individual zones or devices - authorized only'},{key:'Key Switch',desc:'Insert and turn before any operation'}],
+  troubleCodes:[{code:'TROUBLE',desc:'Device fault on SLC - check indicated address'},{code:'GND FAULT',desc:'Ground fault on SLC loop - technician required'},{code:'OPEN',desc:'Circuit open - device disconnected or wire break'},{code:'AC FAIL',desc:'Main AC power loss'},{code:'BATT LOW',desc:'Battery under 80 percent - schedule service'},{code:'COMM FAIL',desc:'Communication failure between panels or to monitoring'},{code:'DIRTY',desc:'Smoke detector contaminated - clean or replace'}],
+  caution:'If panel re-alarms immediately after reset, do NOT keep pressing reset. A device is still active. Return to investigation - repeated forced resets can mask an active fire condition.',
+  tip:'Notifier AFP panels often display custom programmed messages per zone. The LCD text here is among the most informative you will encounter on any panel - read it fully before taking action.',
+  zoneInfo:'LCD shows full SLC address (e.g. "SLC 1 DEV 047 SMOKE"). Zone maps inside panel door or in the fire command room.',
+}],
+edwards:[{
+  id:'edwards-est3',brand:'edwards',name:'Edwards EST3 / EST4',sub:'Large commercial, healthcare, high-rises',
+  icon:'E',color:'#e65100',
+  locations:['High-rises','Large commercial','Healthcare','Universities','Government'],
+  models:['EST3','EST4','E3 Series','QuickStart','GFP-2'],
+  appearance:'Large modular panel that may span a full wall in fire command rooms. EST3 has color touchscreen or large backlit display with row of dedicated function keys. Orange and red accent colors.',
+  diagram:'EDWARDS EST3\n\n  KEY SWITCH [O---] <- Turn to CMD first\n\n  +------------------------------------+\n  | ALARM: FL4 CORRIDOR SMOKE 04-12    |\n  | SUPERVISORY: SPRINKLER VALVE 2A    |\n  +------------------------------------+\n\n  [ ACKNOWLEDGE ] [ SILENCE ] [ RESET ]\n  [ DRILL       ] [ DISABLE ] [ MENU  ]\n\n  Modular: each board = zone group',
+  diagAnnotations:[{sym:'KEY SWITCH',desc:'Turn to ON or COMMAND before any operation'},{sym:'ACKNOWLEDGE',desc:'Silences buzzer and acknowledges all current alarms'},{sym:'SILENCE',desc:'Stops notification appliances building-wide'},{sym:'RESET',desc:'Full system reset - also restores HVAC and elevators'}],
+  silenceSteps:[
+    {text:'Locate fire command center in lobby or dedicated room',priority:'n'},
+    {text:'Turn key switch to ON or COMMAND mode',priority:'c'},
+    {text:'Press ACKNOWLEDGE to silence panel buzzer and acknowledge all alarms',priority:'a'},
+    {text:'Read display fully - EST3 shows floor, zone, and device address',priority:'n'},
+    {text:'Press SILENCE to stop horns and speakers',priority:'a'},
+    {text:'Strobes may continue per code - this is normal',priority:'g'},
+  ],
+  resetSteps:[
+    {text:'Full investigation complete and source corrected',priority:'n'},
+    {text:'Reset manual pull stations at device with key or screwdriver',priority:'a'},
+    {text:'Allow smoke detectors to clear - ventilate area if needed',priority:'n'},
+    {text:'Press RESET or SYSTEM RESET',priority:'a'},
+    {text:'System self-test runs 30-120 seconds - EST4 shows progress on display',priority:'n'},
+    {text:'Confirm all trouble and alarm LEDs clear before returning key to normal',priority:'g'},
+  ],
+  controls:[{key:'KEY -> COMMAND',desc:'First step - required for all functions'},{key:'ACKNOWLEDGE',desc:'Clears buzzer and logs all alarms with timestamp'},{key:'SILENCE',desc:'Stops horns and voice speakers'},{key:'RESET',desc:'Full reset - triggers elevator, HVAC, stairwell systems'},{key:'DRILL',desc:'Fire drill mode - confirm before pressing'},{key:'DISABLE',desc:'Zone or device bypass - authorized only'}],
+  troubleCodes:[{code:'SUPERVISORY',desc:'Sprinkler valve tamper, flow, or monitor point - investigate'},{code:'TROUBLE',desc:'Device fault or circuit issue on indicated zone'},{code:'AC FAIL',desc:'Loss of main power - on battery backup'},{code:'BATT FAIL',desc:'Battery below threshold - service required'},{code:'EARTH FAULT',desc:'Ground fault detected - technician needed'},{code:'COMM LOSS',desc:'Panel-to-panel or monitoring communication failure'}],
+  caution:'EST3 and EST4 reset in high-rises restores stairwell pressurization, elevator recall, and smoke control systems. Always confirm with building engineer before resetting in any large occupancy.',
+  tip:'EST systems have an ACK sequence that silences the panel buzzer without silencing building notification. Always ACK first to read all alarms before deciding to silence.',
+  zoneInfo:'EST panels display voice messages and full zone descriptions. Floor plan maps in fire command room binder. EST3 in high-rises integrates with elevators and HVAC controls.',
+}],
+bosch:[{
+  id:'bosch-d9412',brand:'bosch',name:'Bosch / Radionics D9412',sub:'Commercial, light industrial, mixed-use',
+  icon:'B',color:'#2e7d32',
+  locations:['Commercial buildings','Mixed-use','Light industrial','Retail','Office buildings'],
+  models:['D9412GV4','D7412GV4','FPD-7024','FPD-7024T','DS150i'],
+  appearance:'Grey or beige plastic cabinet. Numeric or alpha keypad with LCD display, very similar in appearance to Honeywell Vista. May have a remote annunciator panel at building entry.',
+  diagram:'BOSCH / RADIONICS D9412\n\n  +---------------------------+\n  | ZONE 12 ALARM             | <- Zone display\n  | 2ND FL SMOKE DETECTOR     |\n  +---------------------------+\n\n  [1][2][3]   [4][5][6]\n  [7][8][9]   [*][0][#]\n\n  (ARMED) (READY) (TROUBLE)\n  (ALARM) (AC FAIL)',
+  diagAnnotations:[{sym:'LCD Display',desc:'Zone number and location text'},{sym:'[*] key',desc:'Function command prefix on most models'},{sym:'[F] key',desc:'On alpha keypads - fire command function key'}],
+  silenceSteps:[
+    {text:'Go to main keypad or annunciator panel',priority:'n'},
+    {text:'Enter user code when prompted - from building staff',priority:'c'},
+    {text:'Press COMMAND or [*] plus labeled silence function key',priority:'a'},
+    {text:'Alpha keypad models: enter code then press [F] or labeled silence key',priority:'a'},
+    {text:'Display confirms silence state',priority:'g'},
+  ],
+  resetSteps:[
+    {text:'Investigate fully and confirm source corrected',priority:'n'},
+    {text:'Enter master or user code',priority:'a'},
+    {text:'Press RESET or hold [#] plus code - specific sequence varies by installer',priority:'a'},
+    {text:'Display shows Normal or Secure when complete',priority:'g'},
+    {text:'If alarm reactivates: detector still active - re-investigate before retrying',priority:'c'},
+  ],
+  controls:[{key:'User Code',desc:'4-6 digits from building staff - required first'},{key:'[*] or [F]',desc:'Command prefix for silence on most models'},{key:'RESET or [#]',desc:'Reset sequence - varies by installer programming'},{key:'STATUS',desc:'Displays all active alarms and trouble conditions'},{key:'COMMAND',desc:'Dedicated function key on alpha keypads'},{key:'[*]+[6]',desc:'Program mode - do not enter'}],
+  troubleCodes:[{code:'ZONE FAIL',desc:'Zone circuit fault - open or short'},{code:'AC FAIL',desc:'Mains power lost - on battery'},{code:'BATT FAIL',desc:'Battery below threshold'},{code:'COMM FAIL',desc:'Monitoring communication failure'},{code:'TAMPER',desc:'Panel or device tamper switch opened'},{code:'CHECK ZONE',desc:'Zone in abnormal state - investigate'}],
+  caution:'Bosch and Radionics panels are heavily customizable by installers. If standard sequences do not work, do not guess - call the monitoring company whose number is on the panel door sticker.',
+  tip:'If display shows "FC" prefix or "E" before a zone number, the panel has separate fire and security functions. Make sure you are operating the fire functions only.',
+  zoneInfo:'Zone numbers on display (e.g. Zone 12 Alarm). Zone directory inside panel door - Bosch zone labels may not be self-explanatory without the directory card.',
+}],
+sk:[{
+  id:'sk-iifp2100',brand:'sk',name:'Silent Knight IFP-2100 / 5208',sub:'Healthcare, schools, mid-rise office',
+  icon:'K',color:'#37474f',
+  locations:['Healthcare clinics','Commercial','Schools','Mid-rise office','Light industrial'],
+  models:['5208','6820EVS','IFP-2100','IFP-300','SK-5250'],
+  appearance:'Grey or silver metallic cabinet. Row of LED annunciator lights above dedicated function buttons. Clean industrial appearance. Larger models have a built-in event log printer.',
+  diagram:'SILENT KNIGHT IFP-2100\n\n  ALARM(R) TROUBLE(A) SUPERVISORY NORMAL(G)  <- LEDs\n  SILENCE(Y) RESET  <- Status LEDs\n\n  +----------------------------------+\n  | ZONE 003 ALARM                   |\n  | LOBBY DUCT DETECTOR              |\n  +----------------------------------+\n\n  [KEY] [SILENCE] [RESET] [PRINT]\n        [DISABLE] [STATUS]',
+  diagAnnotations:[{sym:'LED Row',desc:'Status indicators for all system states at a glance'},{sym:'SILENCE LED',desc:'Illuminates when notification is silenced'},{sym:'PRINT button',desc:'Prints timestamped event log for documentation'}],
+  silenceSteps:[
+    {text:'Insert key and turn to OPERATIONS position',priority:'c'},
+    {text:'Press ALARM SILENCE - dedicated and clearly labeled button',priority:'a'},
+    {text:'SILENCE LED illuminates confirming audible devices stopped',priority:'g'},
+    {text:'LED indicators for active alarms remain lit - this is normal',priority:'n'},
+  ],
+  resetSteps:[
+    {text:'Investigate fully and confirm no active fire or alarm condition remains',priority:'n'},
+    {text:'Physically reset any activated pull stations with key or flathead screwdriver',priority:'a'},
+    {text:'Allow smoke detectors to clear - ventilate the area if needed',priority:'n'},
+    {text:'Press SYSTEM RESET',priority:'a'},
+    {text:'LEDs flash as panel polls each zone - wait for completion',priority:'n'},
+    {text:'All green when normal. Any amber or red remaining means trouble or alarm still active',priority:'g'},
+  ],
+  controls:[{key:'Key Switch',desc:'Required before all operations'},{key:'ALARM SILENCE',desc:'Stops audible notification, lights SILENCE LED'},{key:'SYSTEM RESET',desc:'Full reset after correction'},{key:'PRINT',desc:'Prints timestamped event log - use before reset for documentation'},{key:'DISABLE',desc:'Zone bypass - authorized use only'},{key:'STATUS',desc:'View active alarms and trouble list'}],
+  troubleCodes:[{code:'TROUBLE',desc:'Device or circuit fault on indicated zone'},{code:'OPEN',desc:'Open circuit - device disconnected or wire break'},{code:'AC FAIL',desc:'Main power failure'},{code:'BATTERY',desc:'Low battery - service required'},{code:'COMM',desc:'Communication failure to monitoring or remote panel'},{code:'TAMPER',desc:'Device or panel tamper switch activated'}],
+  caution:'Silent Knight systems in healthcare may use two-stage alarm protocols (alert then full evacuation). Confirm with facility staff before silencing - early stage alerts allow staff preparation time.',
+  tip:'The built-in printer is a valuable documentation tool. Print the event log before reset to get a timestamped record of all activations - useful for your incident report.',
+  zoneInfo:'LED annunciator row shows zone status. Zone directory inside cabinet door. IFP-2100 shows full text descriptions. Event log printer gives exact activation times.',
+}],
+gamewell:[{
+  id:'gamewell-e3',brand:'gamewell',name:'Gamewell-FCI E3 / 7100 Series',sub:'Older commercial and municipal buildings',
+  icon:'G',color:'#0d47a1',
+  locations:['Older commercial','Municipal buildings','Schools','Industrial','Government facilities'],
+  models:['E3 Series','7100 Series','GCC-7100F','E-3 FACP','FCI7100'],
+  appearance:'Red or grey metallic cabinet. Older models have manual toggle switches and indicator lights without LCD. Newer E3 series has modern LCD display and dedicated function keys.',
+  diagram:'OLDER GAMEWELL (Conventional):\n  Z1(R) Z2(R) Z3   Z4   Z5    <- Zone LEDs\n  Z6    Z7    Z8\n  [SILENCE switch] [RESET switch]  <- Physical\n  [DRILL] [TEST]\n  ALARM(R)  POWER(G)\n\nNEWER E3 SERIES:\n  +------------------------------+\n  | ZONE 04 ALARM - FL2 CORRIDOR |\n  +------------------------------+\n  [KEY] [ACK] [SILENCE] [RESET]',
+  diagAnnotations:[{sym:'ZONE LEDs',desc:'Old panels: red LED = that zone in alarm'},{sym:'SILENCE Switch',desc:'Physical toggle on older conventional systems'},{sym:'E3 Key Switch',desc:'Required for E3 series before any operation'}],
+  silenceSteps:[
+    {text:'OLDER panels: locate physical SILENCE toggle switch and flip to SILENCE',priority:'a'},
+    {text:'E3 SERIES: insert key, turn to operations mode, then press ALARM SILENCE',priority:'a'},
+    {text:'Manual horn and bell circuits on old systems may need silencing at electrical panel',priority:'c'},
+    {text:'Indicator light or LED confirms silence state',priority:'g'},
+  ],
+  resetSteps:[
+    {text:'Investigate fully and confirm conditions corrected',priority:'n'},
+    {text:'OLDER panels: return SILENCE switch to ALARM position, then press RESET switch',priority:'a'},
+    {text:'E3 SERIES: key in operations mode, press RESET button',priority:'a'},
+    {text:'Very old systems may require opening panel and pressing physical reset button inside',priority:'n'},
+    {text:'Zone indicator lights return to off or green when system is normal',priority:'g'},
+  ],
+  controls:[{key:'SILENCE Switch',desc:'Older models: physical toggle to silence horns'},{key:'RESET Switch',desc:'Physical push button or dedicated key on E3'},{key:'E3 Key Switch',desc:'Required for E3 series operations'},{key:'ZONE LEDs',desc:'Red = alarm, Amber = trouble, Green or off = normal'},{key:'TEST Switch',desc:'Initiates test - confirm before activating'},{key:'DRILL',desc:'Fire drill mode on E3 series'}],
+  troubleCodes:[{code:'TROUBLE',desc:'Zone circuit fault or device issue'},{code:'OPEN',desc:'Open circuit - check device connection'},{code:'AC FAIL',desc:'Main power loss'},{code:'BATT',desc:'Battery low or failed'},{code:'GROUND',desc:'Ground fault - technician required'},{code:'SUPERVISORY',desc:'Sprinkler monitor point active'}],
+  caution:'Very old Gamewell conventional systems: manual pull stations must be physically reset using a key or flathead screwdriver at each device before the panel will clear that zone.',
+  tip:'Older Gamewell panels are common in schools and municipal buildings. The building custodian often knows this system well and has been resetting it for years. Ask them on arrival.',
+  zoneInfo:'Old Gamewell: LED lamps by zone number with directory card inside panel door. E3 uses LCD with zone descriptions. Very old models may use a card-type zone directory mounted inside.',
+}],
+mircom:[{
+  id:'mircom-fx2000',brand:'mircom',name:'Mircom FX-2000 / FleX-Net',sub:'Commercial and multi-family, newer installs',
+  icon:'M',color:'#880e4f',
+  locations:['Commercial buildings','Multi-family residential','Healthcare','Education','New construction'],
+  models:['FX-2000','FleX-Net','FX-2000(SG)','MR-2000S','LT-951'],
+  appearance:'Grey or black cabinet with backlit LCD display and dedicated function keys. Clean modern appearance similar to Notifier. LED indicators in a row above the display area.',
+  diagram:'MIRCOM FX-2000\n\n  ALARM(R)  TROUBLE(A)  NORMAL(G)  <- LEDs\n\n  +----------------------------------+\n  | ALARM: UNIT 412 SMOKE DET        |\n  | ZONE 04 - 4TH FLOOR EAST         |\n  +----------------------------------+\n\n  [KEY] [ACK] [SILENCE] [RESET]\n        [BYPASS]  [MENU]',
+  diagAnnotations:[{sym:'LED Row',desc:'Alarm, Trouble, Normal status visible at a glance'},{sym:'ACK',desc:'Silences local panel buzzer - always press first'},{sym:'SILENCE',desc:'Stops building-wide notification appliances'}],
+  silenceSteps:[
+    {text:'Insert key and turn to OPERATIONS mode',priority:'c'},
+    {text:'Press ACK to silence panel buzzer and read display without interference',priority:'a'},
+    {text:'Read LCD fully - Mircom shows unit number and zone description',priority:'n'},
+    {text:'Press SILENCE to stop building-wide horns and notification',priority:'a'},
+    {text:'Display shows Alarm Silenced state confirming success',priority:'g'},
+  ],
+  resetSteps:[
+    {text:'Investigation complete and all triggered devices have been reset',priority:'n'},
+    {text:'Ventilate any smoke-affected areas to clear detectors',priority:'n'},
+    {text:'Press RESET - panel polls all devices on the system',priority:'a'},
+    {text:'Green NORMAL LED illuminates when all devices report clear',priority:'g'},
+    {text:'Zone reactivates after reset: device still active - return to investigation',priority:'c'},
+  ],
+  controls:[{key:'Key Switch',desc:'Required before any operation'},{key:'ACK',desc:'Silences panel buzzer - always press first to read display'},{key:'SILENCE',desc:'Stops building-wide notification'},{key:'RESET',desc:'Full reset after correction'},{key:'BYPASS',desc:'Zone bypass - requires authorization'},{key:'MENU',desc:'System configuration - do not enter'}],
+  troubleCodes:[{code:'TROUBLE',desc:'Device fault on indicated zone'},{code:'OPEN CKT',desc:'Circuit open - device disconnected'},{code:'AC FAIL',desc:'Main power failure'},{code:'BATT LOW',desc:'Battery below threshold'},{code:'COMM FAIL',desc:'Communication failure to remote panel'},{code:'SUPERVISORY',desc:'Monitor point active - sprinkler valve etc'},{code:'DIRTY DET',desc:'Detector contaminated - clean or replace'}],
+  caution:'Mircom FleX-Net systems can be multi-building networked. An alarm at one panel node may originate from a different building section. Confirm physical location on display before committing to an investigation path.',
+  tip:'ACK on Mircom silences only the local panel buzzer, not building-wide notification. Always press ACK first so you can read the full alarm list without the buzzer interfering, then press SILENCE.',
+  zoneInfo:'LCD shows zone number, device type, and unit or room location. Zone map inside panel door. FleX-Net systems may be networked - check display for building or network address.',
+}],
+generic:[{
+  id:'generic-conv',brand:'generic',name:'Unknown / Conventional Panel',sub:'When you cannot identify the system',
+  icon:'?',color:'#4e342e',
+  locations:['Older buildings','Small commercial','Any unidentified system','Buildings with worn labels'],
+  models:['Any conventional panel','Unidentified FACP'],
+  appearance:'Varies widely. Look inside the door for a nameplate. LED zone lights indicate conventional system. LCD with address display indicates addressable. Physical toggle switches indicate older conventional.',
+  diagram:'WHAT TO LOOK FOR ON ANY PANEL:\n\n  RED LED     = ALARM ZONE (investigate)\n  AMBER LED   = TROUBLE / FAULT\n  GREEN LED   = NORMAL / POWER OK\n  BLUE LED    = SUPERVISORY\n\n  KEY SWITCH? -> Insert first\n  TOGGLE?     -> Flip to SILENCE\n  LCD?        -> Read zone info\n\n  STICKER ON DOOR = monitoring co number\n  CARD INSIDE DOOR = zone directory',
+  diagAnnotations:[{sym:'RED LED',desc:'Active alarm - that zone requires investigation'},{sym:'AMBER LED',desc:'Trouble or fault condition on that zone'},{sym:'KEY SWITCH',desc:'Insert and turn before pressing anything'},{sym:'Door Sticker',desc:'Monitoring company number - call when uncertain'}],
+  silenceSteps:[
+    {text:'Look for nameplate inside door to identify brand and model - use this guide',priority:'n'},
+    {text:'Find the key switch and insert and turn if present',priority:'c'},
+    {text:'Find the most prominent button labeled SILENCE, ACK, or showing a bell icon',priority:'a'},
+    {text:'Older panel with toggles: find and flip the SILENCE toggle switch',priority:'a'},
+    {text:'Nothing responds: call monitoring company using number on door sticker',priority:'c'},
+  ],
+  resetSteps:[
+    {text:'Investigate fully and confirm cause corrected',priority:'n'},
+    {text:'Pull stations: physically reset at device with key or flathead screwdriver',priority:'a'},
+    {text:'Find and press RESET button',priority:'a'},
+    {text:'Panel will not reset: leave silenced, document zone, call monitoring company',priority:'c'},
+    {text:'Never force-reset a panel that keeps re-alarming - something is still active',priority:'c'},
+  ],
+  controls:[{key:'KEY SWITCH',desc:'Insert and turn - required on most panels'},{key:'SILENCE or ACK',desc:'Most prominent button - stops audible alarm'},{key:'RESET',desc:'Usually near SILENCE - clears after correction'},{key:'ZONE LEDs',desc:'Red = alarm, Amber = trouble, Green = normal'},{key:'DOOR STICKER',desc:'Monitoring company number - call when uncertain'},{key:'ZONE DIRECTORY',desc:'Card inside door - maps zone numbers to locations'}],
+  troubleCodes:[{code:'RED LED on',desc:'Active alarm in that zone - investigate immediately'},{code:'AMBER LED',desc:'Trouble or fault - device issue or circuit problem'},{code:'Beeping buzzer',desc:'Press ACK or SILENCE to clear buzzer, then read display'},{code:'AC or POWER off',desc:'Loss of mains power - panel on battery backup'},{code:'COMM or DIAL fail',desc:'Monitoring communication failure - notify your comm center'},{code:'Panel will not reset',desc:'Device still active - re-investigate before trying again'}],
+  caution:'If you do not recognize a panel and cannot determine how to operate it safely, do NOT experiment. Silence if possible, document the zone, and call the monitoring company.',
+  tip:'Universal rule: ACK silences buzzer, then SILENCE stops building notification, then investigate, then RESET. This sequence works on 90 percent of all fire alarm panels.',
+  zoneInfo:'LED panels: red light = that zone is in alarm. Zone directory card inside panel door maps numbers to physical locations. Always find the directory before investigating.',
+}],
 };
 
-// ─── VIRTUES (Complete) ───────────────────────────────────────────────────────
-const VIRTUES = {
-  L: { key:"L", label:"Love", icon:"❤️", tagline:"Others-first in a me-first culture", color:"#ff4d4d", bg:"#fff0f0", border:"#ff8c00",
-       scoreMeaning: "0=Never • 1=Rarely • 2=Sometimes • 3=Consistently puts others first",
-       strong: ["Celebrates teammates' success", "Shows genuine kindness", "Puts team above self"],
-       weak:   ["Selfish on and off the field", "Dismisses or ignores teammates", "Only cheers for own highlights"],
-       develop: ["After each game, name one teammate who helped you win", "Do one act of encouragement before you leave the field", "Pray: 'Lord, help me love my teammates the way You love me'"] },
-  P: { key:"P", label:"Peace", icon:"☮️", tagline:"Calm anchored in Christ", color:"#00b36b", bg:"#f0fff4", border:"#ff8c00",
-       scoreMeaning: "0=Constant anxiety • 1=Occasional calm • 2=Usually calm • 3=Peace that guards the heart",
-       strong: ["Stays composed under pressure", "Calms teammates in tense moments", "Bounces back quickly from mistakes"],
-       weak:   ["Anxious or panicked when things go wrong", "Spreads tension to teammates", "Dwells on errors during play"],
-       develop: ["Practice three slow breaths before any big moment", "Write down one worry this week and give it to God in prayer", "Memorize Phil. 4:7 — let it anchor your pregame routine"] },
-  S: { key:"S", label:"Self-Control", icon:"🛡️", tagline:"Responding instead of reacting", color:"#0077cc", bg:"#f0f8ff", border:"#ff8c00",
-       scoreMeaning: "0=Frequent outbursts • 1=Improving • 2=Usually controlled • 3=Strong self-discipline",
-       strong: ["Responds to bad calls without blowing up", "Keeps emotions in check under provocation", "Leads by example in discipline"],
-       weak:   ["Frequent outbursts or meltdowns", "Argues with officials or coaches", "Lets frustration hurt performance"],
-       develop: ["Identify your #1 trigger — name it, then make a plan for it", "After a bad call, count to 5 before you react", "Ask a trusted teammate to hold you accountable this week"] },
-  G: { key:"G", label:"Gentleness", icon:"🌿", tagline:"Strength under control", color:"#9c4dff", bg:"#f8f0ff", border:"#ff8c00",
-       scoreMeaning: "0=Often harsh • 1=Sometimes gentle • 2=Usually gentle • 3=Strength under control",
-       strong: ["Encourages struggling teammates", "Competes hard without being cruel", "Uses words that build up, not tear down"],
-       weak:   ["Often harsh or cutting with words", "Intimidates or belittles others", "Confuses meanness with toughness"],
-       develop: ["Before criticizing a teammate, ask: 'Is this kind AND true?'", "Find one struggling player this week and intentionally encourage them", "Journal: where did strength AND gentleness show up together today?"] },
-  H: { key:"H", label:"Humility", icon:"🙏", tagline:"Playing from identity, not for identity", color:"#ff8c00", bg:"#fff8f0", border:"#ff8c00",
-       scoreMeaning: "0=Very prideful • 1=Occasional humility • 2=Growing humility • 3=Consistently humble",
-       strong: ["Credits teammates and coaches for success", "Accepts coaching without defensiveness", "Secure enough to celebrate others"],
-       weak:   ["Takes credit, deflects blame", "Gets defensive when corrected", "Needs to be the star"],
-       develop: ["After your next win, publicly credit two specific teammates", "When corrected by a coach, respond: 'Thank you, I'll work on that'", "Ask yourself: 'Am I playing TO prove something or FROM knowing who I am?'"] },
-  Gr: { key:"Gr", label:"Gratitude", icon:"🙌", tagline:"Thankful in all circumstances", color:"#ffaa00", bg:"#fffdf0", border:"#ff8c00",
-       scoreMeaning: "0=Very entitled • 1=Occasional thanks • 2=Usually grateful • 3=Thankful in all circumstances",
-       strong: ["Thanks coaches, officials, and opponents", "Grateful for the opportunity to compete", "Positive attitude win or lose"],
-       weak:   ["Entitled attitude about playing time or roles", "Rarely thanks others", "Complains about conditions, calls, or teammates"],
-       develop: ["Start every practice with one thing you're grateful for about this team", "Write a one-line thank-you to a coach or teammate this week", "After a loss, find three genuine things to be thankful for before you leave"] },
-  J: { key:"J", label:"Joy", icon:"🎉", tagline:"Delight that outlasts the score", color:"#ff6600", bg:"#fff4f0", border:"#ff8c00",
-       scoreMeaning: "0=Joy is gone • 1=Rare joy • 2=Usually joyful • 3=Consistent delight",
-       strong: ["Genuine enjoyment of the game", "Joy that doesn't depend on the scoreboard", "Lifts the energy of those around them"],
-       weak:   ["Only happy when winning", "Drains team energy with negativity", "Has lost the love of the game"],
-       develop: ["Recall why you first fell in love with this sport — write it down", "Find one moment in each practice to just enjoy the game", "Remind yourself: the scoreboard is temporary, but who you're becoming is not"] }
-};
+let screenStack=['screen-home'];
 
-const SCORE_LABELS = ["Missing", "Emerging", "Developing", "Strong"];
-
-// ─── HELPERS ──────────────────────────────────────────────────────────────────
-function getCombo(scores) {
-  const strong = Object.values(scores).filter(v => v === 3).length;
-  const developing = Object.values(scores).filter(v => v >= 2).length;
-  const avg = (Object.values(scores).reduce((a,b) => a + b, 0) / 7).toFixed(1);
-
-  if (strong >= 5) return { label: "Kingdom Competitor", icon: "🏆", desc: `Avg ${avg}/3`, color: C.orange, progress: 95 };
-  if (developing >= 6) return { label: "Strong Disciple", icon: "🌟", desc: `Avg ${avg}/3`, color: C.green, progress: 85 };
-  return { label: "Developing Disciple", icon: "🌱", desc: `Avg ${avg}/3`, color: "#fd7e14", progress: Math.round(developing / 7 * 100) };
+function goScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if(screenStack[screenStack.length-1]!==id) screenStack.push(id);
+  window.scrollTo(0,0);
+}
+function goBack(){
+  if(screenStack.length>1) screenStack.pop();
+  const prev=screenStack[screenStack.length-1];
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(prev).classList.add('active');
+  window.scrollTo(0,0);
 }
 
-function calculateTeamProgress(athletes) {
-  if (athletes.length === 0) return { avgScore: "0.0", strongPercent: 0, totalAthletes: 0 };
-  let totalScore = 0, totalStrong = 0;
-  const totalVirtues = athletes.length * 7;
+function buildHome(){
+  const grid=document.getElementById('brand-grid');
+  grid.innerHTML=BRANDS.map(b=>{
+    const panels=PANELS[b.id]||[];
+    return `<div class="brand-card" style="--card-color:${b.color}" onclick="openBrand('${b.id}')">
+      <div class="bc-badge" style="background:${b.color}">${b.name}</div>
+      <div class="bc-name">${b.name}</div>
+      <div class="bc-models">${b.models.slice(0,3).join(' &middot; ')}</div>
+      <div class="bc-count">${panels.length} panel${panels.length!==1?'s':''}</div>
+      <span class="bc-arrow">&#8250;</span>
+    </div>`;
+  }).join('');
+}
 
-  athletes.forEach(a => {
-    const scores = Object.values(a.scores || {});
-    totalScore += scores.reduce((a,b) => a + b, 0);
-    totalStrong += scores.filter(v => v === 3).length;
+function openBrand(brandId){
+  const brand=BRANDS.find(b=>b.id===brandId);
+  const panels=PANELS[brandId]||[];
+  document.getElementById('brand-screen-title').textContent=brand.name;
+  document.getElementById('brand-screen-sub').textContent=panels.length+' panel'+(panels.length!==1?'s':'');
+  document.getElementById('brand-color-bar').style.background=brand.color;
+  const list=document.getElementById('panel-list');
+  list.innerHTML=panels.map(p=>`
+    <div class="panel-card" onclick="openPanel('${p.brand}','${p.id}')">
+      <div class="pc-header">
+        <div class="pc-icon" style="background:${p.color}22;border:1px solid ${p.color}44;color:${p.color};font-family:var(--cond);font-weight:900;font-size:1.1rem">${p.icon}</div>
+        <div class="pc-titles"><div class="pc-name">${p.name}</div><div class="pc-sub">${p.sub}</div></div>
+      </div>
+      <div class="pc-tags">${p.locations.slice(0,3).map(l=>`<span class="pc-tag">${l}</span>`).join('')}</div>
+      <div class="pc-quick">
+        <div class="pc-quick-item"><span class="dot" style="background:#ef5350"></span>Silence: ${p.silenceSteps.length} steps</div>
+        <div class="pc-quick-item"><span class="dot" style="background:#66bb6a"></span>Reset: ${p.resetSteps.length} steps</div>
+        <div class="pc-quick-item"><span class="dot" style="background:#ffb300"></span>${p.controls.length} controls</div>
+        <div class="pc-quick-item"><span class="dot" style="background:#42a5f5"></span>${p.troubleCodes.length} codes</div>
+      </div>
+      <span class="pc-arrow">&#8250;</span>
+    </div>
+  `).join('');
+  goScreen('screen-brand');
+}
+
+function pClass(p){return{c:'pc',a:'pa',g:'pg',n:'pn'}[p]||'pn';}
+
+function openPanel(brandId,panelId){
+  const p=(PANELS[brandId]||[]).find(x=>x.id===panelId);
+  if(!p) return;
+  document.getElementById('detail-nav-title').textContent=p.name;
+  document.getElementById('detail-nav-sub').textContent=p.sub;
+  const hero=document.getElementById('detail-hero');
+  hero.style.setProperty('--hero-color',p.color);
+  const iconEl=document.getElementById('dh-icon');
+  iconEl.textContent=p.icon;
+  iconEl.style.background=p.color+'22';
+  iconEl.style.borderColor=p.color;
+  iconEl.style.color=p.color;
+  iconEl.style.fontFamily='var(--cond)';
+  iconEl.style.fontWeight='900';
+  iconEl.style.fontSize='1.4rem';
+  document.getElementById('dh-brand').textContent=BRANDS.find(b=>b.id===brandId)?.name||'';
+  document.getElementById('dh-brand').style.color=p.color;
+  document.getElementById('dh-name').textContent=p.name;
+  document.getElementById('dh-sub').textContent=p.sub;
+
+  const tabDefs=[
+    {id:'silence',label:'Silence'},
+    {id:'reset',label:'Reset'},
+    {id:'controls',label:'Controls'},
+    {id:'codes',label:'Trouble'},
+    {id:'diagram',label:'Diagram'},
+    {id:'overview',label:'Overview'},
+  ];
+  document.getElementById('detail-tabs').innerHTML=tabDefs.map((t,i)=>
+    `<button class="dtab${i===0?' active':''}" onclick="switchTab('${t.id}',this)" style="--tab-color:${p.color}">${t.label}</button>`
+  ).join('');
+
+  const silenceSteps=p.silenceSteps.map((s,i)=>`<div class="step-card"><div class="step-num ${pClass(s.priority)}">${i+1}</div><div><div class="step-text">${s.text}</div></div></div>`).join('');
+  const resetSteps=p.resetSteps.map((s,i)=>`<div class="step-card"><div class="step-num ${pClass(s.priority)}">${i+1}</div><div><div class="step-text">${s.text}</div></div></div>`).join('');
+  const ctrls=p.controls.map(c=>`<div class="ctrl-card"><div class="ctrl-key">${c.key}</div><div class="ctrl-desc">${c.desc}</div></div>`).join('');
+  const codeRows=p.troubleCodes.map(c=>`<tr><td>${c.code}</td><td>${c.desc}</td></tr>`).join('');
+  
+  let artColored=p.diagram
+    .replace(/\(R\)/g,'<span class="d-red">(R)</span>')
+    .replace(/\(A\)/g,'<span class="d-amber">(A)</span>')
+    .replace(/\(G\)/g,'<span class="d-green">(G)</span>')
+    .replace(/\[([^\]]+)\]/g,'<span class="d-amber">[$1]</span>')
+    .replace(/<-[^\n]*/g,m=>`<span class="d-dim">${m}</span>`);
+
+  const annotations=p.diagAnnotations.map(a=>`<div class="ctrl-card"><div class="ctrl-key">${a.sym}</div><div class="ctrl-desc">${a.desc}</div></div>`).join('');
+  const locs=p.locations.map(l=>`<span class="loc-tag">${l}</span>`).join('');
+  const models=p.models.map(m=>`<span class="model-chip">${m}</span>`).join('');
+
+  document.getElementById('detail-content').innerHTML=`
+    <div class="dtab-pane active" id="pane-silence">
+      <div class="callout info" style="margin-bottom:16px"><strong>GOAL</strong>Stop audible alarms so you can communicate and investigate. Strobes may continue &mdash; that is normal and code-required.</div>
+      ${silenceSteps}
+    </div>
+    <div class="dtab-pane" id="pane-reset">
+      <div class="callout warn" style="margin-bottom:16px"><strong>BEFORE RESET</strong>Never reset until investigation is complete and source is corrected. If panel re-alarms after reset, something is still active.</div>
+      ${resetSteps}
+    </div>
+    <div class="dtab-pane" id="pane-controls">
+      <div class="controls-grid">${ctrls}</div>
+      <div class="callout tip" style="margin-top:14px"><strong>TIP</strong>${p.tip}</div>
+    </div>
+    <div class="dtab-pane" id="pane-codes">
+      <div class="callout warn" style="margin-bottom:14px"><strong>CAUTION</strong>${p.caution}</div>
+      <table class="trouble-table">
+        <thead><tr><th>Code / Display</th><th>Meaning and Action</th></tr></thead>
+        <tbody>${codeRows}</tbody>
+      </table>
+    </div>
+    <div class="dtab-pane" id="pane-diagram">
+      <div class="diagram-wrap"><div class="diagram-title">Panel Layout Reference</div><div class="diagram-art">${artColored}</div></div>
+      <div class="pane-label">Key Elements</div>
+      <div class="controls-grid">${annotations}</div>
+    </div>
+    <div class="dtab-pane" id="pane-overview">
+      <div class="pane-label">Common Locations</div>
+      <div class="loc-grid">${locs}</div>
+      <div class="pane-label">Model Numbers</div>
+      <div class="model-chips" style="margin-bottom:14px">${models}</div>
+      <div class="pane-label">Appearance</div>
+      <div style="font-size:.92rem;color:#ccc;line-height:1.6;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:14px">${p.appearance}</div>
+      <div class="pane-label">Finding the Zone</div>
+      <div style="font-size:.92rem;color:#ccc;line-height:1.6;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 14px">${p.zoneInfo}</div>
+    </div>
+  `;
+  goScreen('screen-detail');
+}
+
+function switchTab(id,btn){
+  document.querySelectorAll('.dtab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.dtab-pane').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('pane-'+id).classList.add('active');
+}
+
+// SEARCH
+const searchInput=document.getElementById('search-input');
+const searchClear=document.getElementById('search-clear');
+const searchResults=document.getElementById('search-results');
+const brandSection=document.getElementById('brand-section');
+
+searchInput.addEventListener('input',function(){
+  const q=this.value.trim().toLowerCase();
+  searchClear.style.display=q?'block':'none';
+  if(!q){searchResults.style.display='none';brandSection.style.display='block';return;}
+  brandSection.style.display='none';
+  searchResults.style.display='block';
+  const hits=[];
+  Object.entries(PANELS).forEach(([brandId,panels])=>{
+    const brand=BRANDS.find(b=>b.id===brandId);
+    panels.forEach(p=>{
+      const s=[p.name,p.sub,...(p.models||[]),...(p.locations||[]),brand?.name||''].join(' ').toLowerCase();
+      if(s.includes(q)){
+        let ctx='Match';
+        if((brand?.name||'').toLowerCase().includes(q)) ctx='Brand match';
+        else if(p.name.toLowerCase().includes(q)) ctx='Model name';
+        else{
+          const mm=p.models.find(m=>m.toLowerCase().includes(q));
+          if(mm) ctx='Model: '+mm;
+          else{const ml=p.locations.find(l=>l.toLowerCase().includes(q));if(ml) ctx='Location: '+ml;}
+        }
+        hits.push({brandId,p,brand,ctx});
+      }
+    });
   });
-
-  const avgScore = (totalScore / totalVirtues).toFixed(1);
-  const strongPercent = Math.round((totalStrong / totalVirtues) * 100);
-
-  return { avgScore, strongPercent, totalAthletes: athletes.length };
-}
-
-// ─── MODALS ───────────────────────────────────────────────────────────────────
-function Modal({title, onClose, children}) {
-  return (
-    <div style={{position:"fixed", inset:0, background:"rgba(0,0,0,0.75)", zIndex:500, display:"flex", alignItems:"center", justifyContent:"center"}} onClick={e=>e.target===e.currentTarget&&onClose()}>
-      <div style={{background:"#fff", borderRadius:16, width:"92%", maxWidth:720, maxHeight:"92vh", overflow:"hidden", boxShadow:"0 25px 70px rgba(0,0,0,0.25)"}}>
-        <div style={{padding:"18px 24px", borderBottom:"1px solid #dee2e6", display:"flex", justifyContent:"space-between", alignItems:"center"}}>
-          <span style={{fontSize:21, fontWeight:800, color:C.orange}}>{title}</span>
-          <button onClick={onClose} style={{fontSize:24, background:"none", border:"none", color:"#666"}}>✕</button>
-        </div>
-        <div style={{padding:24, overflowY:"auto", maxHeight:"78vh"}}>{children}</div>
-      </div>
+  if(!hits.length){searchResults.innerHTML='<div class="no-results">No panels found for that search.<br><span style="font-size:.8rem;color:#555;margin-top:8px;display:block">Try brand name, model number, or building type</span></div>';return;}
+  searchResults.innerHTML=hits.map(h=>`
+    <div class="result-item" style="--item-color:${h.p.color}" onclick="openPanel('${h.brandId}','${h.p.id}')">
+      <div class="ri-brand">${h.brand?.name||''}</div>
+      <div class="ri-name">${h.p.name}</div>
+      <div class="ri-match">${h.ctx}</div>
     </div>
-  );
+  `).join('');
+});
+
+function clearSearch(){
+  searchInput.value='';
+  searchClear.style.display='none';
+  searchResults.style.display='none';
+  brandSection.style.display='block';
 }
 
-function ConfirmDelete({name, onConfirm, onCancel}) {
-  return (
-    <Modal title="Delete Athlete" onClose={onCancel}>
-      <p style={{fontSize:16, marginBottom:24}}>Are you sure you want to permanently delete <strong>{name}</strong>?</p>
-      <p style={{color:"#ef4444", marginBottom:24}}>This cannot be undone.</p>
-      <div style={{display:"flex", gap:12, justifyContent:"flex-end"}}>
-        <button onClick={onCancel} style={{padding:"12px 24px", border:"none", background:"#ddd", borderRadius:10}}>Cancel</button>
-        <button onClick={onConfirm} style={{padding:"12px 28px", border:"none", background:"#ef4444", color:"#fff", borderRadius:10, fontWeight:700}}>Yes, Delete</button>
-      </div>
-    </Modal>
-  );
-}
-
-// ─── EDIT MODAL ───────────────────────────────────────────────────────────────
-function EditModal({person, onSave, onClose}) {
-  const [data, setData] = useState({...person, notes: person.notes || ""});
-
-  const updateScore = (key, value) => setData(prev => ({...prev, scores: {...prev.scores, [key]: Number(value)}}));
-
-  return (
-    <Modal title={data.id ? "Edit Athlete" : "Add New Athlete"} onClose={onClose}>
-      <input placeholder="Athlete Name *" value={data.name||""} onChange={e=>setData({...data,name:e.target.value})} style={{width:"100%", padding:14, fontSize:17, border:`2px solid ${C.border}`, borderRadius:10, marginBottom:12}} />
-      <input placeholder="Role / Team (optional)" value={data.role||""} onChange={e=>setData({...data,role:e.target.value})} style={{width:"100%", padding:14, fontSize:17, border:`2px solid ${C.border}`, borderRadius:10, marginBottom:20}} />
-
-      <div style={{marginBottom:20}}>
-        <div style={{fontWeight:700, color:C.orange, marginBottom:12}}>Score Each Virtue (0–3)</div>
-        {Object.values(VIRTUES).map(t => (
-          <div key={t.key} style={{marginBottom:16, padding:16, background:"#fff", border:`1px solid ${t.border}`, borderRadius:12}}>
-            <div style={{display:"flex", alignItems:"center", gap:12, marginBottom:8}}>
-              <span style={{fontSize:28}}>{t.icon}</span>
-              <div style={{flex:1, fontWeight:700, color:t.color}}>{t.label}</div>
-            </div>
-            <div style={{fontSize:13, color:"#555", marginBottom:10}}>{t.scoreMeaning}</div>
-            <div style={{display:"flex", gap:6}}>
-              {[0,1,2,3].map(n => (
-                <button key={n} onClick={()=>updateScore(t.key,n)} style={{flex:1, padding:"10px", borderRadius:8, background: data.scores[t.key]===n ? C.orange : "#f1f3f5", color: data.scores[t.key]===n ? "#fff" : "#333", fontWeight:700}}>
-                  {n}
-                </button>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div style={{marginBottom:20}}>
-        <div style={{fontWeight:700, marginBottom:8}}>Notes / Observations / Prayers</div>
-        <textarea value={data.notes} onChange={e=>setData({...data, notes:e.target.value})} placeholder="Key moments, growth areas, specific prayers..." style={{width:"100%", height:130, padding:14, border:`2px solid ${C.border}`, borderRadius:10, resize:"vertical"}} />
-      </div>
-
-      <div style={{display:"flex", gap:12, justifyContent:"flex-end"}}>
-        <button onClick={onClose} style={{padding:"12px 24px", border:"none", background:"#ddd", borderRadius:10}}>Cancel</button>
-        <button onClick={()=>onSave(data)} style={{padding:"12px 32px", border:"none", background:C.orange, color:"#fff", borderRadius:10, fontWeight:700}} disabled={!data.name?.trim()}>💾 Save Changes</button>
-      </div>
-    </Modal>
-  );
-}
-
-// ─── PERSON DETAIL ────────────────────────────────────────────────────────────
-function PersonDetail({person, onClose, onEdit}) {
-  const [tab, setTab] = useState("assess");
-  const combo = getCombo(person.scores);
-
-  return (
-    <Modal title={person.name} onClose={onClose}>
-      <div style={{display:"flex", justifyContent:"space-between", marginBottom:20}}>
-        <div>
-          <div style={{fontSize:52}}>{combo.icon}</div>
-          <div style={{fontSize:24, fontWeight:800, color:combo.color}}>{combo.label}</div>
-        </div>
-        <button onClick={()=>{ onEdit(person); onClose(); }} style={{background:C.orange, color:"#fff", border:"none", padding:"10px 22px", borderRadius:10, fontWeight:700}}>✏ Edit</button>
-      </div>
-
-      <div style={{marginBottom:24}}>
-        <div style={{display:"flex", justifyContent:"space-between", fontSize:14, marginBottom:8}}>
-          <span>Character Progress</span>
-          <span>{combo.progress}%</span>
-        </div>
-        <div className="progress-bar">
-          <div className="progress-fill" style={{width: `${combo.progress}%`, background: combo.progress > 80 ? "linear-gradient(90deg,#00b36b,#34d399)" : combo.progress > 50 ? "linear-gradient(90deg,#ff8c00,#ffaa00)" : "#dc3545"}} />
-        </div>
-        <div style={{fontSize:13, color:C.textMuted, marginTop:6}}>
-          Last updated: {person.lastUpdated ? new Date(person.lastUpdated).toLocaleDateString() : "Never"}
-        </div>
-      </div>
-
-      <div style={{display:"flex", borderBottom:"3px solid #ff8c00", marginBottom:20}}>
-        {["assess","develop","notes"].map(t => (
-          <button key={t} onClick={()=>setTab(t)} style={{flex:1, padding:"14px", fontWeight:700, background:tab===t?C.orange:"#f1f3f5", color:tab===t?"#fff":"#333", border:"none"}}>
-            {t==="assess"?"📊 Profile":t==="develop"?"🛠 Develop":"📝 Notes"}
-          </button>
-        ))}
-      </div>
-
-      {tab==="assess" && Object.entries(person.scores).map(([k,v]) => {
-        const t = VIRTUES[k];
-        const showHas = v >= 2;
-        return (
-          <div key={k} style={{marginBottom:20, background:"#fff", border:`2px solid ${t.border}`, borderRadius:14, overflow:"hidden"}}>
-            <div style={{background:t.bg, padding:"16px 20px", display:"flex", alignItems:"center", gap:16}}>
-              <span style={{fontSize:42}}>{t.icon}</span>
-              <div style={{flex:1}}><div style={{fontSize:21, fontWeight:800, color:t.color}}>{t.label}</div></div>
-              <span style={{fontSize:18, fontWeight:700}}>{v}/3</span>
-            </div>
-            <div style={{padding:"20px"}}>
-              {(showHas ? t.strong : t.weak).map((s,i) => (
-                <div key={i} style={{marginBottom:6}}>{showHas?"→":"–"} {s}</div>
-              ))}
-            </div>
-          </div>
-        );
-      })}
-
-      {tab==="develop" && (
-        <div>
-          {Object.entries(person.scores).map(([k,v]) => {
-            const t = VIRTUES[k];
-            return (
-              <div key={k} style={{marginBottom:20, background:"#fff", border:`2px solid ${t.border}`, borderRadius:14, overflow:"hidden"}}>
-                <div style={{background:t.bg, padding:"14px 20px", display:"flex", alignItems:"center", gap:12}}>
-                  <span style={{fontSize:28}}>{t.icon}</span>
-                  <div style={{fontSize:18, fontWeight:800, color:t.color, flex:1}}>{t.label}</div>
-                  <span style={{fontSize:14, color:C.textMuted, background:"#fff", padding:"4px 10px", borderRadius:20, fontWeight:700}}>{SCORE_LABELS[v]}</span>
-                </div>
-                <div style={{padding:"16px 20px"}}>
-                  {t.develop.map((step,i) => (
-                    <div key={i} style={{display:"flex", gap:12, marginBottom:10, alignItems:"flex-start"}}>
-                      <span style={{background:C.orange, color:"#fff", borderRadius:"50%", width:22, height:22, display:"flex", alignItems:"center", justifyContent:"center", fontSize:12, fontWeight:800, flexShrink:0}}>{i+1}</span>
-                      <span style={{fontSize:14, color:C.text, lineHeight:1.5}}>{step}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      )}
-
-      {tab==="notes" && (
-        <div style={{background:"#fff", border:`1px solid ${C.border}`, borderRadius:12, padding:24, minHeight:200, whiteSpace:"pre-wrap", fontSize:15}}>
-          {person.notes || "No notes added yet."}
-        </div>
-      )}
-    </Modal>
-  );
-}
-
-const BLANK_ATHLETE = { id:"", name:"", role:"", notes:"", scores:{L:1,P:1,S:1,G:1,H:1,Gr:1,J:1}, lastUpdated: null };
-
-// ─── MAIN APP ─────────────────────────────────────────────────────────────────
-function App() {
-  const [tab, setTab] = useState("athletes");
-  const [athletes, setAthletes] = useState(() => load("awaygame_athletes_v1", []));
-  const [editing, setEditing] = useState(null);
-  const [viewing, setViewing] = useState(null);
-  const [deleteConfirm, setDeleteConfirm] = useState(null);
-
-  function saveAthlete(p) {
-    const updated = {...p, id: p.id || uid(), lastUpdated: Date.now()};
-    const next = p.id ? athletes.map(x => x.id === p.id ? updated : x) : [...athletes, updated];
-    setAthletes(next);
-    save("awaygame_athletes_v1", next);
-    setEditing(null);
-  }
-
-  function deleteAthlete(id) {
-    const next = athletes.filter(a => a.id !== id);
-    setAthletes(next);
-    save("awaygame_athletes_v1", next);
-    setDeleteConfirm(null);
-    if (viewing && viewing.id === id) setViewing(null);
-  }
-
-  const teamStats = calculateTeamProgress(athletes);
-
-  return (
-    <div style={{minHeight:"100vh", background:"#f8f9fa"}}>
-      {/* HEADER */}
-      <div style={{background:"#fff", borderBottom:"4px solid #ff8c00", padding:"0 24px", height:76, display:"flex", alignItems:"center", justifyContent:"space-between", boxShadow:"0 3px 12px rgba(0,0,0,0.1)"}}>
-        <div>
-          <div style={{fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:32, letterSpacing:1.5, color:C.orange}}>AWAY GAME</div>
-          <div style={{fontSize:13, color:"#555"}}>Christian Parent’s Playbook</div>
-        </div>
-        <div style={{display:"flex", gap:8}}>
-          <button onClick={()=>setTab("athletes")} style={{padding:"10px 22px", borderRadius:10, background:tab==="athletes"?C.orange:"#fff", color:tab==="athletes"?"#fff":"#333", fontWeight:700, border:"2px solid #ff8c00"}}>👥 My Athletes</button>
-          <button onClick={()=>setTab("playbook")} style={{padding:"10px 22px", borderRadius:10, background:tab==="playbook"?C.orange:"#fff", color:tab==="playbook"?"#fff":"#333", fontWeight:700, border:"2px solid #ff8c00"}}>📖 The Playbook</button>
-        </div>
-      </div>
-
-      {tab === "athletes" && (
-        <div style={{padding:24}}>
-          {/* TEAM PROGRESS DASHBOARD */}
-          {athletes.length > 0 && (
-            <div className="team-card" style={{marginBottom:32}}>
-              <div style={{fontSize:20, fontWeight:800, marginBottom:16, color:C.orange}}>Team Progress Overview</div>
-              <div style={{display:"grid", gridTemplateColumns:"repeat(auto-fit, minmax(180px, 1fr))", gap:20}}>
-                <div>
-                  <div style={{fontSize:13, color:C.textMuted}}>Team Average Score</div>
-                  <div style={{fontSize:32, fontWeight:800, color:C.orange}}>{teamStats.avgScore}</div>
-                  <div style={{fontSize:13}}>out of 3.0</div>
-                </div>
-                <div>
-                  <div style={{fontSize:13, color:C.textMuted}}>Strong Virtues</div>
-                  <div style={{fontSize:32, fontWeight:800, color: teamStats.strongPercent > 70 ? C.green : C.orange}}>{teamStats.strongPercent}%</div>
-                </div>
-                <div>
-                  <div style={{fontSize:13, color:C.textMuted}}>Athletes Tracked</div>
-                  <div style={{fontSize:32, fontWeight:800}}>{teamStats.totalAthletes}</div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          <div style={{display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:28}}>
-            <h1 style={{fontSize:28, fontWeight:800}}>My Athletes</h1>
-            <button onClick={()=>setEditing(BLANK_ATHLETE)} style={{background:C.orange, color:"#fff", border:"none", padding:"12px 28px", borderRadius:12, fontWeight:700}}>＋ Add Athlete</button>
-          </div>
-
-          {athletes.length === 0 ? (
-            <div style={{textAlign:"center", padding:"120px 20px", color:"#666"}}>
-              <div style={{fontSize:80}}>⚽️🏀🏈</div>
-              <div style={{fontSize:24, margin:"20px 0"}}>Start building your team’s character</div>
-              <button onClick={()=>setEditing(BLANK_ATHLETE)} style={{background:C.orange, color:"#fff", padding:"14px 36px", borderRadius:12, fontSize:17, fontWeight:700}}>Add Your First Athlete</button>
-            </div>
-          ) : (
-            <div style={{display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(310px, 1fr))", gap:20}}>
-              {athletes.map(p => {
-                const combo = getCombo(p.scores);
-                return (
-                  <div key={p.id} style={{background:"#fff", border:`1px solid ${C.border}`, borderRadius:16, padding:22, boxShadow:"0 6px 20px rgba(0,0,0,0.07)", position:"relative"}}>
-                    <button 
-                      onClick={(e)=>{e.stopPropagation(); setDeleteConfirm(p);}} 
-                      className="delete-btn" 
-                      style={{position:"absolute", top:12, right:12}}
-                    >
-                      🗑
-                    </button>
-                    
-                    <div onClick={()=>setViewing(p)} style={{cursor:"pointer"}}>
-                      <div style={{fontSize:22, fontWeight:800, marginBottom:8}}>{p.name}</div>
-                      {p.role && <div style={{color:C.textSub, marginBottom:12}}>{p.role}</div>}
-                      
-                      <div style={{display:"flex", gap:8, flexWrap:"wrap", marginBottom:16}}>
-                        {Object.entries(p.scores).map(([k,v]) => (
-                          <div key={k} style={{background:VIRTUES[k].bg, padding:"6px 10px", borderRadius:8, fontSize:14}}>{VIRTUES[k].icon} {v}</div>
-                        ))}
-                      </div>
-
-                      <div style={{marginBottom:12}}>
-                        <div className="progress-bar">
-                          <div className="progress-fill" style={{width: `${combo.progress}%`, background: combo.progress > 80 ? "linear-gradient(90deg,#00b36b,#34d399)" : combo.progress > 50 ? "linear-gradient(90deg,#ff8c00,#ffaa00)" : "#dc3545"}} />
-                        </div>
-                      </div>
-
-                      <div style={{fontSize:13, color:C.textMuted}}>Last updated: {p.lastUpdated ? new Date(p.lastUpdated).toLocaleDateString() : "Never"}</div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </div>
-      )}
-
-      {tab === "playbook" && (
-        <div style={{padding:24, maxWidth:820, margin:"0 auto"}}>
-          <h2 style={{color:C.orange, marginBottom:8}}>The Seven Virtues</h2>
-          <p style={{color:C.textSub, marginBottom:32}}>Fruit of the Spirit applied to youth sports.</p>
-          {Object.values(VIRTUES).map(t => (
-            <div key={t.key} style={{marginBottom:24, background:"#fff", border:`1px solid ${t.border}`, borderRadius:16, padding:24}}>
-              <div style={{display:"flex", alignItems:"center", gap:16}}>
-                <span style={{fontSize:48}}>{t.icon}</span>
-                <div>
-                  <div style={{fontSize:22, fontWeight:800, color:t.color}}>{t.label}</div>
-                  <div style={{color:C.textSub}}>"{t.tagline}"</div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {editing && <EditModal person={editing} onSave={saveAthlete} onClose={()=>setEditing(null)} />}
-      {viewing && <PersonDetail person={viewing} onClose={()=>setViewing(null)} onEdit={p=>{setViewing(null); setEditing(p);}} />}
-      {deleteConfirm && <ConfirmDelete name={deleteConfirm.name} onConfirm={()=>deleteAthlete(deleteConfirm.id)} onCancel={()=>setDeleteConfirm(null)} />}
-    </div>
-  );
-}
-
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(React.createElement(App));
+buildHome();
 </script>
 </body>
 </html>
